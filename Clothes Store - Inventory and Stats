@@ -1,0 +1,31 @@
+/* Create a clothes store */
+
+CREATE TABLE clothes_store (id integer primary key, item text, price numeric,aisle integer, sizes integer,colors numeric); 
+
+insert into clothes_store values (1, "blouses",10, 4, 4, 3);
+insert into clothes_store values (2,"pants", 20, 6, 4, 4);
+insert into clothes_store values (3,"bras", 15, 2, 10, 3);
+insert into clothes_store values (4,"undies", 7, 2, 4, 3);
+insert into clothes_store values (5,"pajamas pants", 15,3,4,5);
+insert into clothes_store values (6,"pajama shirt", 7, 3, 4, 5);
+insert into clothes_store values (7,"sweater", 25, 7, 5, 6);
+insert into clothes_store values (8,"skirts", 14,6, 4, 7);
+insert into clothes_store values (9,"tank tops", 8, 4, 6, 6);
+insert into clothes_store values (10,"chinos", 50, 6, 4, 5);
+insert into clothes_store values (11,"jeans", 35, 6, 5, 1);
+insert into clothes_store values (12,"tie", 9, 1, 6, 7);
+insert into clothes_store values (13,"socks", 5, 1, 3, 5);
+insert into clothes_store values (14,"hats", 22, 1, 2, 3);
+insert into clothes_store values (15,"blazers", 50, 4, 3, 5);
+
+/* display the store's items ordered by price */
+SELECT * FROM clothes_store ORDER BY price;
+
+/* what are the store's most expensive items*/
+SELECT max(price) as Most_Expensive_Price from clothes_store;
+
+/* what is the average price of items in the store";
+SELECT AVG(price) from clothes_store; 
+
+/* what items sold by the store are above the average price/*
+SELECT aisle,item,price from clothes_store where price > 20 order by aisle asc;
