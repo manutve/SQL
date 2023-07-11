@@ -1,0 +1,82 @@
+-- In this project, I created a data base containing 4 tables: 2022 top selling singers, 2022 top songs, 2022 raising new artists 
+and artists who have collaborated together --   
+
+CREATE TABLE top_artists
+    (id INTEGER PRIMARY KEY, 
+    name TEXT, 
+    age NUMERIC);
+    
+INSERT INTO top_artists VALUES (1, 'Bad Bunny', 29);
+INSERT INTO top_artists VALUES (2, 'Taylor Swift', 33);
+INSERT INTO top_artists VALUES (3, 'Harry Styles', 29);
+INSERT INTO top_artists VALUES (4, 'Drake', 36);
+INSERT INTO top_artists VALUES (5, 'Ed Sheeran', 32);
+INSERT INTO top_artists VALUES (6, 'Adele', 35);
+INSERT INTO top_artists VALUES (7, 'Justin Bieber', 29);
+
+
+CREATE TABLE raising_stars
+    (id INTEGER PRIMARY KEY, 
+    name TEXT, 
+    country TEXT);
+    
+INSERT INTO raising_stars VALUES (1, 'Glass Animals', 'UK');
+INSERT INTO raising_stars VALUES (2, 'The Kid LAROI', 'Australia');
+INSERT INTO raising_stars VALUES (3, 'Latoo', 'USA');
+INSERT INTO raising_stars VALUES (4, 'Zach Bryan', 'USA');
+INSERT INTO raising_stars VALUES (5, 'Steve Lacy', 'USA');
+
+
+CREATE TABLE top_songs
+    (id INTEGER PRIMARY KEY,
+    name TEXT, 
+    song_type TEXT, 
+    artist_id INTEGER, 
+    award TEXT);
+    
+INSERT INTO top_songs VALUES (1, 'Heat Waves', 'Remake', 'NULL', 'NULL');
+INSERT INTO top_songs VALUES (2, 'As it was', 'Original', '3', 'AMA');
+INSERT INTO top_songs VALUES (3, 'Stay', 'Original', 'NULLL', 'NULL'); 
+INSERT INTO top_songs VALUES (4, 'Easy on me', 'Original', '6', 'Grammy');
+INSERT INTO top_songs VALUES (5, 'Shivers', 'Original', '5', 'NULL');
+
+
+CREATE TABLE collaborations
+    (id INTEGER PRIMARY KEY, 
+    top_artist_id INTEGER, 
+    raising_star_id INTEGER);
+    
+INSERT INTO collaborations (top_artist_id, raising_star_id) VALUES (NULL, 1);
+INSERT INTO collaborations (top_artist_id, raising_star_id) VALUES (3, NULL);
+INSERT INTO collaborations (top_artist_id, raising_star_id) VALUES (7, 2);
+INSERT INTO collaborations (top_artist_id, raising_star_id) VALUES (6, NULL);
+INSERT INTO collaborations (top_artist_id, raising_star_id) VALUES (5, NULL);
+
+
+-- Then I sused joins to analyze and group the data --
+
+    /* I combined multiple inner joins to determine the names of the artists who have collaborated together */
+    
+Select top_artists.name as top_artist, raising_stars.name as raising_star
+    From collaborations
+    Join top_artists
+    On collaborations.top_artist_id = top_artists.id
+    Join raising_stars
+    On collaborations.raising_star_id = raising_stars.id;
+    
+    /* I used left join to: */ 
+    
+    -- View all the artists names and whether their songs are in the top 2022 chart 
+    
+Select top_artists.id, top_artists.name as artist, top_songs.name as song
+    From top_artists
+    Left join top_songs
+    On top_artists.id = top_songs.artist_id;
+    
+    -- Which of these songs are a remake
+    
+Select top_artists.id, top_artists.name as artist, top_songs.name as song, top_songs.song_type
+    From top_songs
+    Left join top_artists
+    On top_artists.id = top_songs.artist_id 
+    Where song_type = 'Remake';
