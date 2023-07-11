@@ -142,7 +142,7 @@ Select product, COUNT(*) AS total_items_above_avg_price FROM sales
     having price > 1740 
     order by price asc; 
     
-    /* What are the top 3 countries where the highest and         lowest sales happened during that year? */
+    /* What are the top 3 countries where the highest and lowest sales happened during that year? */
 
 Select country, sum(price) as hightest_sale_by_country FROM sales
     group by country
@@ -172,21 +172,21 @@ From sales order by client_tier;
 Select country,
     Case 
         When country = 'Australia' then "Western_market"
-        When country = 'United states' or country = 'Canada'          then 'NorthAmerican_Market'
+        When country = 'United states' or country = 'Canada' then 'NorthAmerican_Market'
         Else "European/African_market"
     End as "Target_Markets"
 From sales Group by 1;
 
 -- Finally, I filtered the data using and/or operators --
 
-    /* Is there a relationship between the the countries where     the highest sales happened and the payment method used? */
+    /* Is there a relationship between the the countries where the highest sales happened and the payment method used? */
 
 Select product, payment_type, price 
 from sales
-    Where country = 'United states' or country = 'Canada' or     country = 'United Kingdom'
+    Where country = 'United states' or country = 'Canada' or country = 'United Kingdom'
     Order by price desc;
     
-    /* What other products are popular in the country with the     highest sales*/
+    /* What other products are popular in the country with the highest sales*/
     
 Select * from sales
     Where (country = 'United states' and product <> 'Couch')
