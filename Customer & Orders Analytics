@@ -1,5 +1,5 @@
-#In this SQL, I'm using a database with multiple tables in it containing information about customers and monthly sales #
-# Then, I am querying the database to quantify statistics about customer and order data #
+-- In this SQL, I'm using a database with multiple tables in it containing information about customers and monthly sales --
+-- Then, I am querying the database to quantify statistics about customer and order data --
 
 /*How many orders were placed in January? */        
 
