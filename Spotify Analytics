@@ -1,0 +1,84 @@
+-- For this project, I am using Spotify data that I downloaded from Kaggle --
+-- I created a table and inserted the Spotify data into it --
+-- Finally, I analyzed the data using SQL --
+
+/* The first step was creating the table */
+
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+/* Second, I inserted the Spotify Data .csv into the table */
+
+/* Lastly, I analyzed the data */
+
+-- First, I determined if any of the top 50 artists are listed twice --
+
+SELECT artist_name, count(artist_name)
+    FROM bit_db.Spotifydata 
+    GROUP BY artist_name
+    HAVING count(artist_name)>1; 
+    
+-- I determined the overall average popularity, danceability and energy --
+
+SELECT avg(danceability), avg(popularity), avg(energy) 
+    FROM BIT_DB.Spotifydata;
+
+-- Then, I selected the 10 more popular songs that are less than 3 minutes long and aare bove the avg danceability -- 
+
+SELECT track_name, artist_name, popularity, duration_ms
+    FROM bit_db.Spotifydata
+    WHERE duration_ms < 180000 and danceability > 0.68
+    GROUP BY track_name 
+    LIMIT 10;
+    
+-- I matched artists that have the same popularity level using self joins --
+
+SELECT A.artist_name AS artist1, B.artist_name as artist2, A.popularity
+     FROM bit_db.spotifydata A, bit_db.spotifydata B
+     WHERE A.id <> B.id
+     AND A.artist_name <> B.artist_name
+     AND A.popularity = B.popularity
+     ORDER BY A.popularity; 
+     
+-- What is the most danceable song--
+
+SELECT track_name, artist_name, max(danceability)
+    FROM Bit_db.Spotifydata;
+    
+-- If an artist is listed multiple times, what is the average popularity by artist --
+
+SELECT artist_name, count(artist_name), avg(popularity)
+    FROM bit_db.Spotifydata
+    GROUP BY artist_name
+    HAVING count(artist_name)>1;
+
+-- Lastly, I used CTEs to calculate the average popularity for all the artists in the Spotify data table. 
+Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star” --
+
+WITH Temp_popularity AS (
+    SELECT s.artist_name, AVG(s.popularity) AS average_popularity
+    FROM SpotifyData s 
+    GROUP BY s.artist_name
+    )
+    SELECT  artist_name,
+        average_popularity,
+        'Top Star' AS label
+        FROM Temp_popularity
+        WHERE average_popularity>=90;
